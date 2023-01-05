@@ -1,0 +1,5 @@
+var searchIndex = JSON.parse('{\
+"cyclic_idx":{"doc":"General struct and traits for cyclic indexing","t":[3,8,11,11,11,11,11,11,11,11,11,11,11,11,12,10],"n":["Cyclic","Wrapping","borrow","borrow_mut","eq","fmt","from","index","index_mut","into","new","try_from","try_into","type_id","values","wrap"],"q":["cyclic_idx","","","","","","","","","","","","","","",""],"d":["struct representing a type with cyclic indexing","trait representing how to wrap indicies of a given type","","","","","Returns the argument unchanged.","","","Calls <code>U::from(self)</code>.","","","","","",""],"i":[0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,8],"f":[0,0,[[]],[[]],[[1,1],2],[[[1,[3]],4],5],[[]],[1],[1],[[]],[[],1],[[],6],[[],6],[[],7],0,[[]]],"p":[[3,"Cyclic"],[15,"bool"],[8,"Debug"],[3,"Formatter"],[6,"Result"],[4,"Result"],[3,"TypeId"],[8,"Wrapping"]]}\
+}');
+if (typeof window !== 'undefined' && window.initSearch) {window.initSearch(searchIndex)};
+if (typeof exports !== 'undefined') {exports.searchIndex = searchIndex};

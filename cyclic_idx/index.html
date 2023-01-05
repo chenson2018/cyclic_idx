@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="General struct and traits for cyclic indexing"><meta name="keywords" content="rust, rustlang, rust-lang, cyclic_idx"><title>cyclic_idx - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../normalize.css"><link rel="stylesheet" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../ayu.css" disabled><link rel="stylesheet" href="../dark.css" disabled><link rel="stylesheet" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../cyclic_idx/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../cyclic_idx/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate cyclic_idx</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.1.0</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../cyclic_idx/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">cyclic_idx</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/cyclic_idx/lib.rs.html#1-360">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>General struct and traits for cyclic indexing</p>
+<h2 id="basic-example"><a href="#basic-example">Basic Example</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>cyclic_idx::Cyclic;
+<span class="kw">let </span>ex: Cyclic&lt;Vec&lt;u8&gt;, usize, usize&gt; = Cyclic::new(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
+
+<span class="macro">assert_eq!</span>(<span class="number">1</span>, ex[<span class="number">0</span>]);
+<span class="macro">assert_eq!</span>(<span class="number">1</span>, ex[<span class="number">3</span>]);</code></pre></div>
+<h2 id="equality"><a href="#equality">Equality</a></h2>
+<p><code>PartialEq</code> and <code>Eq</code> are defined so that two <code>Cyclic</code> structs that are “rotated” are equal:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>ex1: Cyclic&lt;<span class="kw">_</span>, usize, usize&gt; = Cyclic::new(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
+<span class="kw">let </span>ex2 = Cyclic::new(<span class="macro">vec!</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>]);
+<span class="kw">let </span>ex3 = Cyclic::new(<span class="macro">vec!</span>[<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>]);
+
+<span class="macro">assert_eq!</span>(ex1, ex2);
+<span class="macro">assert_eq!</span>(ex1, ex3);
+<span class="macro">assert_eq!</span>(ex2, ex3);</code></pre></div>
+<p>Note that we were able to omit some type annotations because of comparison.</p>
+<h2 id="indexmut"><a href="#indexmut">IndexMut</a></h2>
+<p>You can also use cyclic indexing in a mutable context:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span><span class="kw-2">mut </span>ex1: Cyclic&lt;<span class="kw">_</span>, usize, usize&gt; = Cyclic::new(<span class="macro">vec!</span>[<span class="number">2</span>, <span class="number">3</span>, <span class="number">999</span>]);
+<span class="kw">let </span>ex2 = Cyclic::new(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
+ex1[<span class="number">2</span>] = <span class="number">1</span>;
+<span class="macro">assert_eq!</span>(ex1, ex2);</code></pre></div>
+<h2 id="type-bounds"><a href="#type-bounds">Type bounds</a></h2>
+<p>In the above examples, the struct <code>Cyclic</code> is specified with three generic arguments: the
+original data <code>Vec&lt;u8&gt;</code>, the type of this data’s indicies <code>usize</code> and the type we will use
+to access these indicies <code>usize</code>.</p>
+<p>In the trait bounds, these two types of indicies are named <code>NativeIdx</code> and <code>ForeignIdx</code>. In
+general, they do not need to be the same type, so long as <code>ForeignIdx: TryInto&lt;native_idx&gt;</code> is
+satisfied. For example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>ex: Cyclic&lt;<span class="kw">_</span>, usize, isize&gt; = Cyclic::new(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);
+
+<span class="macro">assert_eq!</span>(<span class="number">1</span>, ex[-<span class="number">3 </span><span class="kw">as </span>isize]);
+<span class="macro">assert_eq!</span>(<span class="number">1</span>, ex[<span class="number">0 </span><span class="kw">as </span>isize]);
+<span class="macro">assert_eq!</span>(<span class="number">1</span>, ex[<span class="number">3 </span><span class="kw">as </span>isize]);</code></pre></div>
+<h2 id="wrapping-trait"><a href="#wrapping-trait"><code>Wrapping</code> trait</a></h2>
+<p>The way that indices wrap is determined by their implementation of the trait <a href="trait.Wrapping.html"><code>Wrapping</code></a>. In the above
+examples we have seen the two implementations provided by this crate, where <code>NativeIdx</code> is
+usize and <code>ForeignIdx</code> is either <code>usize</code> or <code>isize</code>.</p>
+<p>You may also use a data structure with a different indexing by providing your own
+implementation. Here is a bit of a contrived example where our indicies are an enum with two
+variants that wrap to each other:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>cyclic_idx::{Cyclic,Wrapping};
+<span class="kw">use </span>std::ops::Index;
+
+<span class="kw">enum </span>EnumIdx {
+    A,
+    B,
+}
+
+<span class="kw">impl </span>From&lt;EnumIdx&gt; <span class="kw">for </span>usize {
+    <span class="kw">fn </span>from(e: EnumIdx) -&gt; <span class="self">Self </span>{
+        <span class="kw">match </span>e {
+            EnumIdx::A =&gt; <span class="number">0</span>,
+            EnumIdx::B =&gt; <span class="number">1</span>,
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;T&gt; Wrapping&lt;T&gt; <span class="kw">for </span>EnumIdx
+<span class="kw">where
+    </span>T: Index&lt;usize&gt; + IntoIterator + Clone,
+{
+    <span class="kw">fn </span>wrap(<span class="self">self</span>, idx: T) -&gt; <span class="self">Self </span>{
+        <span class="kw">match </span><span class="self">self </span>{
+            EnumIdx::A =&gt; EnumIdx::B,
+            EnumIdx::B =&gt; EnumIdx::A,
+        }
+    }
+}
+
+<span class="kw">let </span>ex: Cyclic&lt;Vec&lt;<span class="kw-2">&amp;</span>str&gt;, usize, EnumIdx&gt; = Cyclic::new(<span class="macro">vec!</span>[<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>]);
+
+<span class="macro">assert_eq!</span>(<span class="string">&quot;A&quot;</span>, ex[EnumIdx::B]);
+<span class="macro">assert_eq!</span>(<span class="string">&quot;B&quot;</span>, ex[EnumIdx::A]);</code></pre></div>
+<h2 id="from-generic-types"><a href="#from-generic-types">From Generic Types</a></h2>
+<p>Note that we are not just limited to using vectors as our input data. Any values that meet
+<code>Index&lt;usize&gt; + IntoIterator + Clone</code> will be accepted. As an example, consider a generic
+struct:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">struct </span>Container&lt;T: Index&lt;usize&gt; + IntoIterator + Clone&gt;(T);</code></pre></div>
+<p>For <code>Container</code> itself to meet our trait bounds, we need to implement the <code>Index</code> and <code>IntoIterator</code> traits:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">impl</span>&lt;T, N&gt; IntoIterator <span class="kw">for </span>Container&lt;T&gt;
+<span class="kw">where
+    </span>T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
+{
+    <span class="kw">type </span>Item = N;
+    <span class="kw">type </span>IntoIter = &lt;T <span class="kw">as </span>IntoIterator&gt;::IntoIter;
+
+    <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="self">Self</span>::IntoIter {
+        <span class="self">self</span>.<span class="number">0</span>.into_iter()
+    }
+}
+
+<span class="kw">impl</span>&lt;T, N&gt; Index&lt;usize&gt; <span class="kw">for </span>Container&lt;T&gt;
+<span class="kw">where
+    </span>T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
+{
+    <span class="kw">type </span>Output = N;
+
+    <span class="kw">fn </span>index(<span class="kw-2">&amp;</span><span class="self">self</span>, idx: usize) -&gt; <span class="kw-2">&amp;</span>N {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>[idx]
+    }
+}
+
+<span class="kw">let </span>ex: Cyclic&lt;Container&lt;Vec&lt;u8&gt;&gt;, usize, usize&gt; = Cyclic::new(Container(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]));
+<span class="macro">assert_eq!</span>(<span class="number">1</span>, ex[<span class="number">0</span>]);
+<span class="macro">assert_eq!</span>(<span class="number">1</span>, ex[<span class="number">3</span>]);</code></pre></div>
+<p>Note that we have not not implemented a custom method of wrapping, as we are still using usize
+for both <code>NativeIdx</code> and <code>ForeignIdx</code>.</p>
+<h2 id="non-usize-nativeidx"><a href="#non-usize-nativeidx">Non-<code>usize</code> NativeIdx</a></h2>
+<p>Note that it is not a requirement that NativeIdx is <code>usize</code> as in our previous examples.
+Consider the following where we define a type whoose indicies are a subset of isize:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">struct </span>IsizeSubset {
+    non_negative: Vec&lt;i8&gt;,
+    negative: Vec&lt;i8&gt;,
+}
+
+<span class="kw">impl </span>IntoIterator <span class="kw">for </span>IsizeSubset {
+    <span class="kw">type </span>Item = i8;
+    <span class="kw">type </span>IntoIter = std::vec::IntoIter&lt;<span class="self">Self</span>::Item&gt;;
+
+    <span class="kw">fn </span>into_iter(<span class="self">self</span>) -&gt; <span class="self">Self</span>::IntoIter {
+        <span class="kw">let </span>neg_iter = <span class="self">self
+            </span>.negative
+            .into_iter()
+            .rev()
+            .into_iter();
+        <span class="kw">let </span>non_neg_iter = <span class="self">self</span>.non_negative.into_iter();
+        neg_iter
+            .chain(non_neg_iter)
+            .collect::&lt;Vec&lt;i8&gt;&gt;()
+            .into_iter()
+    }
+}
+
+
+<span class="kw">let </span>values = IsizeSubset {
+    non_negative: <span class="macro">vec!</span>[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+    negative: <span class="macro">vec!</span>[-<span class="number">1</span>, -<span class="number">2</span>, -<span class="number">3</span>],
+};
+
+<span class="macro">assert_eq!</span>(
+    <span class="macro">vec!</span>[-<span class="number">3</span>, -<span class="number">2</span>, -<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+    values.clone().into_iter().collect::&lt;Vec&lt;i8&gt;&gt;()
+);
+
+<span class="kw">impl </span>Index&lt;isize&gt; <span class="kw">for </span>IsizeSubset {
+    <span class="kw">type </span>Output = i8;
+
+    <span class="kw">fn </span>index(<span class="kw-2">&amp;</span><span class="self">self</span>, idx: isize) -&gt; <span class="kw-2">&amp;</span>i8 {
+        <span class="kw">if </span>idx &gt;= <span class="number">0 </span>{
+            <span class="kw-2">&amp;</span><span class="self">self</span>.non_negative[idx <span class="kw">as </span>usize]
+        } <span class="kw">else </span>{
+            <span class="kw-2">&amp;</span><span class="self">self</span>.negative[(-idx - <span class="number">1</span>) <span class="kw">as </span>usize]
+        }
+    }
+}
+
+<span class="kw">impl </span>Wrapping&lt;IsizeSubset&gt; <span class="kw">for </span>isize {
+    <span class="kw">fn </span>wrap(<span class="self">self</span>, values: IsizeSubset) -&gt; isize {
+        <span class="kw">let </span>len_non_negative = values.non_negative.iter().len() <span class="kw">as </span>isize;
+        <span class="kw">let </span>len_negative = values.negative.iter().len() <span class="kw">as </span>isize;
+        ((<span class="self">self </span>+ len_negative).rem_euclid(len_non_negative + len_negative)) - len_negative
+    }
+}
+
+<span class="kw">let </span>ex: Cyclic&lt;IsizeSubset, isize, isize&gt; = Cyclic::new(values);
+
+<span class="macro">assert_eq!</span>(<span class="number">0</span>, ex[<span class="number">0</span>]);
+<span class="macro">assert_eq!</span>(-<span class="number">3</span>, ex[<span class="number">4</span>]);
+<span class="macro">assert_eq!</span>(-<span class="number">3</span>, ex[<span class="number">11</span>]);
+<span class="macro">assert_eq!</span>(<span class="number">3</span>, ex[-<span class="number">4</span>]);
+<span class="macro">assert_eq!</span>(<span class="number">3</span>, ex[-<span class="number">11</span>]);</code></pre></div>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Cyclic.html" title="cyclic_idx::Cyclic struct">Cyclic</a></div><div class="item-right docblock-short">struct representing a type with cyclic indexing</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Wrapping.html" title="cyclic_idx::Wrapping trait">Wrapping</a></div><div class="item-right docblock-short">trait representing how to wrap indicies of a given type</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="cyclic_idx" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

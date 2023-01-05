@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Cyclic","struct representing a type with cyclic indexing"]],"trait":[["Wrapping","trait representing how to wrap indicies of a given type"]]};
