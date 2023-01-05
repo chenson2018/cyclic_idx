@@ -359,6 +359,7 @@
 <span id="359">359</span>
 <span id="360">360</span>
 <span id="361">361</span>
+<span id="362">362</span>
 </pre><pre class="rust"><code><span class="doccomment">//! General struct and traits for cyclic indexing
 //!
 //! # Basic Example
@@ -404,7 +405,7 @@
 //! assert_eq!(ex1, ex2);
 //! ```
 //!
-//! # Type bounds
+//! # Trait bounds
 //!
 //! In the above examples, the struct `Cyclic` is specified with three generic arguments: the
 //! original data `Vec&lt;u8&gt;`, the type of this data&#39;s indices `usize`, and the type we will use
@@ -422,6 +423,7 @@
 //! assert_eq!(1, ex[0 as isize]);
 //! assert_eq!(1, ex[3 as isize]);
 //! ```
+//! In general, see [`Cyclic::new`](crate::Cyclic::new) for a listing of required trait bounds.
 //!
 //! # `Wrapping` trait
 //!
