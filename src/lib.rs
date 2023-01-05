@@ -117,7 +117,7 @@
 //! ```
 //! # use std::ops::Index;
 //! #[derive(Clone, Debug)]
-//! struct Container<T: Index<usize> + IntoIterator + Clone>(T);
+//! struct Container<N, T: Index<usize, Output = N> + IntoIterator<Item = N> + Clone>(T);
 //! ```
 //!
 //! For `Container` itself to meet our trait bounds, we need to implement the `Index` and `IntoIterator` traits:
@@ -126,8 +126,8 @@
 //! # use cyclic_idx::Cyclic;
 //! # use std::ops::Index;
 //! # #[derive(Clone, Debug)]
-//! # struct Container<T: Index<usize> + IntoIterator + Clone>(T);
-//! impl<T, N> IntoIterator for Container<T>
+//! # struct Container<N, T: Index<usize, Output = N> + IntoIterator<Item = N> + Clone>(T);
+//! impl<T, N> IntoIterator for Container<N, T>
 //! where
 //!     T: Index<usize, Output = N> + IntoIterator<Item = N> + Clone,
 //! {
@@ -139,7 +139,7 @@
 //!     }
 //! }
 //!
-//! impl<T, N> Index<usize> for Container<T>
+//! impl<T, N> Index<usize> for Container<N, T>
 //! where
 //!     T: Index<usize, Output = N> + IntoIterator<Item = N> + Clone,
 //! {
@@ -150,7 +150,7 @@
 //!     }
 //! }
 //!
-//! let ex: Cyclic<Container<Vec<u8>>, usize, usize> = Cyclic::new(Container(vec![1, 2, 3]));
+//! let ex: Cyclic<Container<u8, Vec<u8>>, usize, usize> = Cyclic::new(Container(vec![1, 2, 3]));
 //! assert_eq!(1, ex[0]);
 //! assert_eq!(1, ex[3]);
 //! ```
