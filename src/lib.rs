@@ -43,7 +43,7 @@
 //! assert_eq!(ex1, ex2);
 //! ```
 //!
-//! # Type bounds
+//! # Trait bounds
 //!
 //! In the above examples, the struct `Cyclic` is specified with three generic arguments: the
 //! original data `Vec<u8>`, the type of this data's indices `usize`, and the type we will use
@@ -61,6 +61,7 @@
 //! assert_eq!(1, ex[0 as isize]);
 //! assert_eq!(1, ex[3 as isize]);
 //! ```
+//! In general, see [`Cyclic::new`](crate::Cyclic::new) for a listing of required trait bounds.
 //!
 //! # `Wrapping` trait
 //!
