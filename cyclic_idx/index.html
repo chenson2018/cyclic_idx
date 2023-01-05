@@ -30,7 +30,7 @@ ex1[<span class="number">2</span>] = <span class="number">1</span>;
 <span class="macro">assert_eq!</span>(ex1, ex2);</code></pre></div>
 <h2 id="type-bounds"><a href="#type-bounds">Type bounds</a></h2>
 <p>In the above examples, the struct <code>Cyclic</code> is specified with three generic arguments: the
-original data <code>Vec&lt;u8&gt;</code>, the type of this data’s indicies <code>usize</code> and the type we will use
+original data <code>Vec&lt;u8&gt;</code>, the type of this data’s indices <code>usize</code>, and the type we will use
 to access these indicies <code>usize</code>.</p>
 <p>In the trait bounds, these two types of indicies are named <code>NativeIdx</code> and <code>ForeignIdx</code>. In
 general, they do not need to be the same type, so long as <code>ForeignIdx: TryInto&lt;native_idx&gt;</code> is
@@ -45,8 +45,8 @@ satisfied. For example:</p>
 <p>The way that indices wrap is determined by their implementation of the trait <a href="trait.Wrapping.html"><code>Wrapping</code></a>. In the above
 examples we have seen the two implementations provided by this crate, where <code>NativeIdx</code> is
 usize and <code>ForeignIdx</code> is either <code>usize</code> or <code>isize</code>.</p>
-<p>You may also use a data structure with a different indexing by providing your own
-implementation. Here is a bit of a contrived example where our indicies are an enum with two
+<p>You may also use a data structure with different indexing by providing your own
+implementation. Here is a bit of a contrived example where our indices are an enum with two
 variants that wrap to each other:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>cyclic_idx::{Cyclic,Wrapping};
@@ -117,11 +117,11 @@ struct:</p>
 <span class="kw">let </span>ex: Cyclic&lt;Container&lt;Vec&lt;u8&gt;&gt;, usize, usize&gt; = Cyclic::new(Container(<span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]));
 <span class="macro">assert_eq!</span>(<span class="number">1</span>, ex[<span class="number">0</span>]);
 <span class="macro">assert_eq!</span>(<span class="number">1</span>, ex[<span class="number">3</span>]);</code></pre></div>
-<p>Note that we have not not implemented a custom method of wrapping, as we are still using usize
+<p>Note that we have not implemented a custom method of wrapping, as we are still using usize
 for both <code>NativeIdx</code> and <code>ForeignIdx</code>.</p>
 <h2 id="non-usize-nativeidx"><a href="#non-usize-nativeidx">Non-<code>usize</code> NativeIdx</a></h2>
 <p>Note that it is not a requirement that NativeIdx is <code>usize</code> as in our previous examples.
-Consider the following where we define a type whoose indicies are a subset of isize:</p>
+Consider the following where we define a type whose indices are a subset of isize:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[derive(Clone, Debug)]
 </span><span class="kw">struct </span>IsizeSubset {

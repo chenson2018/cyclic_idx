@@ -402,7 +402,7 @@
 //! # Type bounds
 //!
 //! In the above examples, the struct `Cyclic` is specified with three generic arguments: the
-//! original data `Vec&lt;u8&gt;`, the type of this data&#39;s indicies `usize` and the type we will use
+//! original data `Vec&lt;u8&gt;`, the type of this data&#39;s indices `usize`, and the type we will use
 //! to access these indicies `usize`.
 //!
 //! In the trait bounds, these two types of indicies are named `NativeIdx` and `ForeignIdx`. In
@@ -424,8 +424,8 @@
 //! examples we have seen the two implementations provided by this crate, where `NativeIdx` is
 //! usize and `ForeignIdx` is either `usize` or `isize`.
 //!
-//! You may also use a data structure with a different indexing by providing your own
-//! implementation. Here is a bit of a contrived example where our indicies are an enum with two
+//! You may also use a data structure with different indexing by providing your own
+//! implementation. Here is a bit of a contrived example where our indices are an enum with two
 //! variants that wrap to each other:
 //!
 //! ```
@@ -510,13 +510,13 @@
 //! assert_eq!(1, ex[3]);
 //! ```
 //!
-//! Note that we have not not implemented a custom method of wrapping, as we are still using usize
+//! Note that we have not implemented a custom method of wrapping, as we are still using usize
 //! for both `NativeIdx` and `ForeignIdx`.
 //!
 //! # Non-`usize` NativeIdx
 //!
 //! Note that it is not a requirement that NativeIdx is `usize` as in our previous examples.
-//! Consider the following where we define a type whoose indicies are a subset of isize:
+//! Consider the following where we define a type whose indices are a subset of isize:
 //!
 //! ```
 //! # use cyclic_idx::{Cyclic,Wrapping};
