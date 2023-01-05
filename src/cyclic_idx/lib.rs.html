@@ -489,7 +489,7 @@
 //! # use std::ops::Index;
 //! # #[derive(Clone, Debug)]
 //! # struct Container&lt;N, T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone&gt;(T);
-//! impl&lt;T, N&gt; IntoIterator for Container&lt;N, T&gt;
+//! impl&lt;N, T&gt; IntoIterator for Container&lt;N, T&gt;
 //! where
 //!     T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
 //! {
@@ -501,7 +501,7 @@
 //!     }
 //! }
 //!
-//! impl&lt;T, N&gt; Index&lt;usize&gt; for Container&lt;N, T&gt;
+//! impl&lt;N, T&gt; Index&lt;usize&gt; for Container&lt;N, T&gt;
 //! where
 //!     T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
 //! {

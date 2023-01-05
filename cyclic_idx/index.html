@@ -92,7 +92,7 @@ struct:</p>
 </span><span class="kw">struct </span>Container&lt;N, T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone&gt;(T);</code></pre></div>
 <p>For <code>Container</code> itself to meet our trait bounds, we need to implement the <code>Index</code> and <code>IntoIterator</code> traits:</p>
 
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">impl</span>&lt;T, N&gt; IntoIterator <span class="kw">for </span>Container&lt;N, T&gt;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">impl</span>&lt;N, T&gt; IntoIterator <span class="kw">for </span>Container&lt;N, T&gt;
 <span class="kw">where
     </span>T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
 {
@@ -104,7 +104,7 @@ struct:</p>
     }
 }
 
-<span class="kw">impl</span>&lt;T, N&gt; Index&lt;usize&gt; <span class="kw">for </span>Container&lt;N, T&gt;
+<span class="kw">impl</span>&lt;N, T&gt; Index&lt;usize&gt; <span class="kw">for </span>Container&lt;N, T&gt;
 <span class="kw">where
     </span>T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
 {
