@@ -85,7 +85,7 @@ variants that wrap to each other:</p>
 <span class="macro">assert_eq!</span>(<span class="string">&quot;B&quot;</span>, ex[EnumIdx::A]);</code></pre></div>
 <h2 id="from-generic-types"><a href="#from-generic-types">From Generic Types</a></h2>
 <p>Note that we are not just limited to using vectors as our input data. Any values that meet
-<code>Index&lt;usize&gt; + IntoIterator + Clone</code> will be accepted. As an example, consider a generic
+<code>Index&lt;NativeIdx, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone</code> will be accepted. As an example, consider a generic
 struct:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attribute">#[derive(Clone, Debug)]
