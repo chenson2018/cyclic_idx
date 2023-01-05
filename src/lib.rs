@@ -22,11 +22,11 @@
 //! assert_eq!(ex1, ex3);
 //! assert_eq!(ex2, ex3);
 //! ```
-//! Note that we were able to omit some type annotations because of comparison. 
+//! Note that we were able to omit some type annotations because of comparison.
 //!
 //! Also note that this has a very limited form of equality that might not suit your
-//! purposes. For instance, length of the underlying iterators must be equal, so `Cyclic::new([1, 2])` and 
-//! `Cyclic::new([1, 2, 1, 2])` would be treated as distinct. 
+//! purposes. For instance, length of the underlying iterators must be equal, so `Cyclic::new([1, 2])` and
+//! `Cyclic::new([1, 2, 1, 2])` would be treated as distinct.
 //!
 //! There is also no consideration given to the path through the underlying iterator imposed by how
 //! indicies wrap through the data.
