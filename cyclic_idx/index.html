@@ -15,10 +15,10 @@
 <span class="macro">assert_eq!</span>(ex1, ex2);
 <span class="macro">assert_eq!</span>(ex1, ex3);
 <span class="macro">assert_eq!</span>(ex2, ex3);</code></pre></div>
-<p>Note that we were able to omit some type annotations because of comparison. </p>
+<p>Note that we were able to omit some type annotations because of comparison.</p>
 <p>Also note that this has a very limited form of equality that might not suit your
-purposes. For instance, length of the underlying iterators must be equal, so <code>Cyclic::new([1, 2])</code> and 
-<code>Cyclic::new([1, 2, 1, 2])</code> would be treated as distinct. </p>
+purposes. For instance, length of the underlying iterators must be equal, so <code>Cyclic::new([1, 2])</code> and
+<code>Cyclic::new([1, 2, 1, 2])</code> would be treated as distinct.</p>
 <p>There is also no consideration given to the path through the underlying iterator imposed by how
 indicies wrap through the data.</p>
 <h2 id="indexmut"><a href="#indexmut">IndexMut</a></h2>
