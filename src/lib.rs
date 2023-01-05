@@ -127,7 +127,7 @@
 //! # use std::ops::Index;
 //! # #[derive(Clone, Debug)]
 //! # struct Container<N, T: Index<usize, Output = N> + IntoIterator<Item = N> + Clone>(T);
-//! impl<T, N> IntoIterator for Container<N, T>
+//! impl<N, T> IntoIterator for Container<N, T>
 //! where
 //!     T: Index<usize, Output = N> + IntoIterator<Item = N> + Clone,
 //! {
@@ -139,7 +139,7 @@
 //!     }
 //! }
 //!
-//! impl<T, N> Index<usize> for Container<N, T>
+//! impl<N, T> Index<usize> for Container<N, T>
 //! where
 //!     T: Index<usize, Output = N> + IntoIterator<Item = N> + Clone,
 //! {
