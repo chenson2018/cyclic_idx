@@ -111,7 +111,7 @@
 //! # From Generic Types
 //!
 //! Note that we are not just limited to using vectors as our input data. Any values that meet
-//! `Index<usize> + IntoIterator + Clone` will be accepted. As an example, consider a generic
+//! `Index<NativeIdx, Output = N> + IntoIterator<Item = N> + Clone` will be accepted. As an example, consider a generic
 //! struct:
 //!
 //! ```
