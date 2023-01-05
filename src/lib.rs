@@ -22,7 +22,14 @@
 //! assert_eq!(ex1, ex3);
 //! assert_eq!(ex2, ex3);
 //! ```
-//! Note that we were able to omit some type annotations because of comparison.
+//! Note that we were able to omit some type annotations because of comparison. 
+//!
+//! Also note that this has a very limited form of equality that might not suit your
+//! purposes. For instance, length of the underlying iterators must be equal, so `Cyclic::new([1, 2])` and 
+//! `Cyclic::new([1, 2, 1, 2])` would be treated as distinct. 
+//!
+//! There is also no consideration given to the path through the underlying iterator imposed by how
+//! indicies wrap through the data.
 //!
 //! # IndexMut
 //!
@@ -316,17 +323,6 @@ where
         &mut self.values[convert_idx]
     }
 }
-
-// to check if two Cyclics are equal, we turn their values into iterators and check if any offset
-// makes them all equal
-//
-// I think that I should replace using T: IntoIterator with a custom impl IntoIterator for Cyclic
-//
-// This also doesn't prevent wrapping from having a different order from the iterator, is that
-// relevant?
-//
-// I think what should really happen is that we have a trait that defines the successor of an X
-// that then goes into the impl IntoIterator for Cyclic and we use that to compare
 
 impl<T, NativeIdx, ForeignIdx> PartialEq for Cyclic<T, NativeIdx, ForeignIdx>
 where
