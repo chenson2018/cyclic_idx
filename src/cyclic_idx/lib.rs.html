@@ -354,6 +354,11 @@
 <span id="354">354</span>
 <span id="355">355</span>
 <span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
 </pre><pre class="rust"><code><span class="doccomment">//! General struct and traits for cyclic indexing
 //!
 //! # Basic Example
@@ -598,10 +603,15 @@
     foreign_idx: PhantomData&lt;ForeignIdx&gt;,
 }
 
-<span class="kw">impl</span>&lt;T, NativeIdx, ForeignIdx&gt; Cyclic&lt;T, NativeIdx, ForeignIdx&gt;
+<span class="comment">// not sure if the trait bounds should be enforced here
+
+</span><span class="kw">impl</span>&lt;T, NativeIdx, ForeignIdx, N&gt; Cyclic&lt;T, NativeIdx, ForeignIdx&gt;
 <span class="kw">where
-    </span>T: Index&lt;NativeIdx&gt; + IntoIterator + Clone,
+    </span>T: Index&lt;NativeIdx, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
     ForeignIdx: TryInto&lt;NativeIdx&gt; + Wrapping&lt;T&gt;,
+    &lt;ForeignIdx <span class="kw">as </span>TryInto&lt;NativeIdx&gt;&gt;::Error: Debug,
+    &lt;T <span class="kw">as </span>IntoIterator&gt;::IntoIter: Clone,
+    &lt;T <span class="kw">as </span>IntoIterator&gt;::Item: PartialEq,
 {
     <span class="kw">pub fn </span>new(values: T) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
@@ -628,9 +638,9 @@
     <span class="kw">fn </span>wrap(<span class="self">self</span>, values: T) -&gt; <span class="self">Self</span>;
 }
 
-<span class="kw">impl</span>&lt;T&gt; Wrapping&lt;T&gt; <span class="kw">for </span>usize
+<span class="kw">impl</span>&lt;T, N&gt; Wrapping&lt;T&gt; <span class="kw">for </span>usize
 <span class="kw">where
-    </span>T: Index&lt;usize&gt; + IntoIterator + Clone,
+    </span>T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
 {
     <span class="kw">fn </span>wrap(<span class="self">self</span>, values: T) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>len = values.into_iter().count();
@@ -638,9 +648,9 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T&gt; Wrapping&lt;T&gt; <span class="kw">for </span>isize
+<span class="kw">impl</span>&lt;T, N&gt; Wrapping&lt;T&gt; <span class="kw">for </span>isize
 <span class="kw">where
-    </span>T: Index&lt;usize&gt; + IntoIterator + Clone,
+    </span>T: Index&lt;usize, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
 {
     <span class="kw">fn </span>wrap(<span class="self">self</span>, values: T) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>len = values.into_iter().count();
@@ -680,9 +690,9 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T, NativeIdx, ForeignIdx&gt; PartialEq <span class="kw">for </span>Cyclic&lt;T, NativeIdx, ForeignIdx&gt;
+<span class="kw">impl</span>&lt;T, NativeIdx, ForeignIdx, N&gt; PartialEq <span class="kw">for </span>Cyclic&lt;T, NativeIdx, ForeignIdx&gt;
 <span class="kw">where
-    </span>T: IntoIterator + Clone,
+    </span>T: Index&lt;NativeIdx, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
     &lt;T <span class="kw">as </span>IntoIterator&gt;::IntoIter: Clone,
     &lt;T <span class="kw">as </span>IntoIterator&gt;::Item: PartialEq,
 {
@@ -703,9 +713,9 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T, NativeIdx, ForeignIdx&gt; Eq <span class="kw">for </span>Cyclic&lt;T, NativeIdx, ForeignIdx&gt;
+<span class="kw">impl</span>&lt;T, NativeIdx, ForeignIdx, N&gt; Eq <span class="kw">for </span>Cyclic&lt;T, NativeIdx, ForeignIdx&gt;
 <span class="kw">where
-    </span>T: IntoIterator + Clone,
+    </span>T: Index&lt;NativeIdx, Output = N&gt; + IntoIterator&lt;Item = N&gt; + Clone,
     &lt;T <span class="kw">as </span>IntoIterator&gt;::IntoIter: Clone,
     &lt;T <span class="kw">as </span>IntoIterator&gt;::Item: PartialEq,
 {
