@@ -242,10 +242,15 @@ pub struct Cyclic<T, NativeIdx, ForeignIdx> {
     foreign_idx: PhantomData<ForeignIdx>,
 }
 
-impl<T, NativeIdx, ForeignIdx> Cyclic<T, NativeIdx, ForeignIdx>
+// not sure if the trait bounds should be enforced here
+
+impl<T, NativeIdx, ForeignIdx, N> Cyclic<T, NativeIdx, ForeignIdx>
 where
-    T: Index<NativeIdx> + IntoIterator + Clone,
+    T: Index<NativeIdx, Output = N> + IntoIterator<Item = N> + Clone,
     ForeignIdx: TryInto<NativeIdx> + Wrapping<T>,
+    <ForeignIdx as TryInto<NativeIdx>>::Error: Debug,
+    <T as IntoIterator>::IntoIter: Clone,
+    <T as IntoIterator>::Item: PartialEq,
 {
     pub fn new(values: T) -> Self {
         Self {
@@ -272,9 +277,9 @@ pub trait Wrapping<T> {
     fn wrap(self, values: T) -> Self;
 }
 
-impl<T> Wrapping<T> for usize
+impl<T, N> Wrapping<T> for usize
 where
-    T: Index<usize> + IntoIterator + Clone,
+    T: Index<usize, Output = N> + IntoIterator<Item = N> + Clone,
 {
     fn wrap(self, values: T) -> Self {
         let len = values.into_iter().count();
@@ -282,9 +287,9 @@ where
     }
 }
 
-impl<T> Wrapping<T> for isize
+impl<T, N> Wrapping<T> for isize
 where
-    T: Index<usize> + IntoIterator + Clone,
+    T: Index<usize, Output = N> + IntoIterator<Item = N> + Clone,
 {
     fn wrap(self, values: T) -> Self {
         let len = values.into_iter().count();
@@ -324,9 +329,9 @@ where
     }
 }
 
-impl<T, NativeIdx, ForeignIdx> PartialEq for Cyclic<T, NativeIdx, ForeignIdx>
+impl<T, NativeIdx, ForeignIdx, N> PartialEq for Cyclic<T, NativeIdx, ForeignIdx>
 where
-    T: IntoIterator + Clone,
+    T: Index<NativeIdx, Output = N> + IntoIterator<Item = N> + Clone,
     <T as IntoIterator>::IntoIter: Clone,
     <T as IntoIterator>::Item: PartialEq,
 {
@@ -347,9 +352,9 @@ where
     }
 }
 
-impl<T, NativeIdx, ForeignIdx> Eq for Cyclic<T, NativeIdx, ForeignIdx>
+impl<T, NativeIdx, ForeignIdx, N> Eq for Cyclic<T, NativeIdx, ForeignIdx>
 where
-    T: IntoIterator + Clone,
+    T: Index<NativeIdx, Output = N> + IntoIterator<Item = N> + Clone,
     <T as IntoIterator>::IntoIter: Clone,
     <T as IntoIterator>::Item: PartialEq,
 {
